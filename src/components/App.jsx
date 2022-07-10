@@ -58,13 +58,18 @@ class App extends Component {
         <Section title="Phonebook">
           <Form onFormSubmit={this.formSubmitHandler} />
         </Section>
-        <Section title="Contact">
-          <Filter value={filter} onChange={this.changeFilter} />
-          <Contacts
-            data={visibleContact}
-            onRemoveContact={this.removeContact}
-          />
-        </Section>
+        {this.state.contacts.length > 0 ? (
+          <Section title="Contact">
+            <Filter value={filter} onChange={this.changeFilter} />
+
+            <Contacts
+              data={visibleContact}
+              onRemoveContact={this.removeContact}
+            />
+          </Section>
+        ) : (
+          <div>You don't have any contacts yet</div>
+        )}
       </Container>
     );
   }

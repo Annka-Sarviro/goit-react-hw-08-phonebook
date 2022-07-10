@@ -1,5 +1,6 @@
 import React from 'react';
 import { Contact, Name, Tel, Button } from './Contacts.styled';
+import PropTypes from 'prop-types';
 
 const Contacts = ({ data, onRemoveContact }) => {
   return (
@@ -19,3 +20,14 @@ const Contacts = ({ data, onRemoveContact }) => {
 };
 
 export default Contacts;
+
+Contacts.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      number: PropTypes.string,
+    })
+  ),
+  onRemoveContact: PropTypes.func,
+};
