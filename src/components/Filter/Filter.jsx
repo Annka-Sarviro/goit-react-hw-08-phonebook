@@ -1,12 +1,13 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
+import { Label, Input } from '../Form/Form.styled';
 
 const Filter = ({ value, onChange }) => {
   return (
-    <label htmlFor={nanoid()}>
+    <Label htmlFor={nanoid()}>
       Find contacts by name
-      <input type="text" value={value} onChange={onChange} />
-    </label>
+      <Input type="text" value={value} onChange={onChange} />
+    </Label>
   );
 };
 

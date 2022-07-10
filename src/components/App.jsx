@@ -4,6 +4,7 @@ import Section from './Section';
 import Form from './Form';
 import Contacts from './Contacts';
 import Filter from './Filter';
+import { Container } from './App.styled';
 
 class App extends Component {
   state = {
@@ -53,7 +54,7 @@ class App extends Component {
     const { filter } = this.state;
     const visibleContact = this.filtredContacts();
     return (
-      <div>
+      <Container>
         <Section title="Phonebook">
           <Form onFormSubmit={this.formSubmitHandler} />
         </Section>
@@ -64,7 +65,7 @@ class App extends Component {
             onRemoveContact={this.removeContact}
           />
         </Section>
-      </div>
+      </Container>
     );
   }
 }
