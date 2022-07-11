@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import Section from './Section';
-import Form from './Form';
+import FormSubmit from './Form/';
 import Contacts from './Contacts';
 import Filter from './Filter';
 import { Container } from './App.styled';
@@ -16,7 +16,6 @@ class App extends Component {
     ],
     filter: '',
   };
-
   formSubmitHandler = ({ name, number }) => {
     const contact = {
       name,
@@ -56,7 +55,7 @@ class App extends Component {
     return (
       <Container>
         <Section title="Phonebook">
-          <Form onFormSubmit={this.formSubmitHandler} />
+          <FormSubmit onSubmitForm={this.formSubmitHandler} />
         </Section>
         {this.state.contacts.length > 0 ? (
           <Section title="Contact">

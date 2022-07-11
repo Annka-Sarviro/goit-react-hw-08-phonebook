@@ -1,62 +1,68 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { nanoid } from 'nanoid';
-import { Label, Input, Button } from './Form.styled';
+import { Label, Button, ErrorText } from './Form.styled';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
-class Form extends Component {
-  state = {
-    name: '',
-    number: '',
+const FormError = ({ name }) => {
+  return (
+    <ErrorMessage
+      name={name}
+      render={() => <ErrorText>Enter number</ErrorText>}
+    />
+  );
+};
+
+const validationSchema = Yup.object({
+  name: Yup.string().required(),
+  number: Yup.number().required(),
+});
+
+const initialValues = {
+  name: '',
+  number: '',
+};
+const FormSubmit = ({ onSubmitForm }) => {
+  const nameInputId = nanoid();
+  const numberInputId = nanoid();
+
+  const handleSubmit = (values, { resetForm }) => {
+    onSubmitForm(values);
+    resetForm();
   };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.onFormSubmit(this.state);
-    this.formReset();
-  };
-
-  formReset = () => this.setState({ name: '', number: '' });
-
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  nameInputId = nanoid();
-  numberInputId = nanoid();
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <Label htmlFor={this.nameInputId}>
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form>
+        <Label htmlFor={nameInputId}>
           Name
-          <Input
-            value={this.state.name}
-            onChange={this.handleChange}
+          <Field
             type="text"
             name="name"
-            id={this.nameInputId}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            id={nameInputId}
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
+          <FormError name="name" />
         </Label>
-        <Label htmlFor={this.numberInputId}>
+        <Label htmlFor={numberInputId}>
           Number
-          <Input
+          <Field
             type="tel"
             name="number"
-            value={this.state.number}
-            id={this.numberInputId}
-            onChange={this.handleChange}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            id={numberInputId}
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />
+          <FormError name="number" />
         </Label>
         <Button type="submit">+ Add contact</Button>
-      </form>
-    );
-  }
-}
+      </Form>
+    </Formik>
+  );
+};
 
-export default Form;
+export default FormSubmit;
