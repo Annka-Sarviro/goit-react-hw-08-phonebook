@@ -22,6 +22,7 @@ const initialValues = {
   name: '',
   number: '',
 };
+
 const FormSubmit = ({ onSubmitForm }) => {
   const nameInputId = nanoid();
   const numberInputId = nanoid();
