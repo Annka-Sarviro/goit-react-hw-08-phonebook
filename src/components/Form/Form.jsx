@@ -2,6 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import { Label, Button, ErrorText } from './Form.styled';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 
 const FormError = ({ name }) => {
@@ -67,3 +68,7 @@ const FormSubmit = ({ onSubmitForm }) => {
 };
 
 export default FormSubmit;
+
+FormSubmit.propTypes = {
+  onSubmitForm: PropTypes.func,
+};
