@@ -2,8 +2,10 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import { Label, Button, ErrorText } from './Form.styled';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact, getContacts } from 'redux/contactSlice';
+
 
 const FormError = ({ name }) => {
   return (
@@ -24,12 +26,24 @@ const initialValues = {
   number: '',
 };
 
-const FormSubmit = ({ onSubmitForm }) => {
+const FormSubmit = () => {
   const nameInputId = nanoid();
   const numberInputId = nanoid();
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
 
   const handleSubmit = (values, { resetForm }) => {
-    onSubmitForm(values);
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === values.name.toLowerCase()
+      )
+    ) {
+      return alert(`${values.name} is already in contacts`);
+    }
+
+    values['id'] = numberInputId;
+    dispatch(addContact(values))
     resetForm();
   };
   return (
@@ -69,6 +83,3 @@ const FormSubmit = ({ onSubmitForm }) => {
 
 export default FormSubmit;
 
-FormSubmit.propTypes = {
-  onSubmitForm: PropTypes.func,
-};

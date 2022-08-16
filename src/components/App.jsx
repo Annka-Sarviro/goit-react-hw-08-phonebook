@@ -1,66 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { nanoid } from 'nanoid';
+import React from 'react';
 import Section from './Section';
 import FormSubmit from './Form/';
 import Contacts from './Contacts';
 import Filter from './Filter';
 import { Container } from './App.styled';
+import { useSelector } from 'react-redux';
+import {getContacts} from '../redux/contactSlice' 
 
-const STORAGE_KEY = 'contact';
 
 function App() {
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? [];
-  });
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(getContacts)
 
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
-  }, [contacts]);
 
-  const formSubmitHandler = ({ name, number }) => {
-    const user = { name: name, number: number, id: nanoid() };
+  // const changeFilter = e => {
+  //   const value = e.currentTarget.value;
+  //   setFilter(value);
+  // };
 
-    if (
-      contacts.find(
-        contact => contact.name.toLowerCase() === name.toLowerCase()
-      )
-    ) {
-      return alert(`${name} is already in contacts`);
-    } else {
-      return setContacts(prevState => [user, ...prevState]);
-    }
-  };
+  // const filtredContacts = () => {
+  //   const normalizeFiltr = filter.toLowerCase();
 
-  const changeFilter = e => {
-    const value = e.currentTarget.value;
-    setFilter(value);
-  };
-
-  const filtredContacts = () => {
-    const normalizeFiltr = filter.toLowerCase();
-
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizeFiltr)
-    );
-  };
-
-  const removeContact = contactId => {
-    setContacts(prevState =>
-      prevState.filter(contact => contact.id !== contactId)
-    );
-  };
+  //   return contacts.filter(contact =>
+  //     contact.name.toLowerCase().includes(normalizeFiltr)
+  //   );
+  // };
 
   return (
     <Container>
       <Section title="Phonebook">
-        <FormSubmit onSubmitForm={formSubmitHandler} />
+        <FormSubmit  />
       </Section>
       {contacts.length > 0 ? (
         <Section title="Contact">
-          <Filter value={filter} onChange={changeFilter} />
+          <Filter />
 
-          <Contacts data={filtredContacts()} onRemoveContact={removeContact} />
+          <Contacts  />
         </Section>
       ) : (
         <div>You don't have any contacts yet</div>
