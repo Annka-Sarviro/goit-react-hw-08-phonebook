@@ -5,36 +5,36 @@ import Contacts from './Contacts';
 import Filter from './Filter';
 import { Container } from './App.styled';
 import { useSelector } from 'react-redux';
-import {getContacts} from '../redux/contactSlice' 
+import {getFilterValue} from '../redux/contactSlice' 
+import { useGetContactsQuery } from 'redux/contactApiSlice';
+
+const useFiltredContcts =  (contacts) => {
+    const filter = useSelector(getFilterValue);
+    const normalizeFiltr = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizeFiltr)
+    );
+  }
 
 
-function App() {
-  const contacts = useSelector(getContacts)
 
+function App() { 
 
-  // const changeFilter = e => {
-  //   const value = e.currentTarget.value;
-  //   setFilter(value);
-  // };
-
-  // const filtredContacts = () => {
-  //   const normalizeFiltr = filter.toLowerCase();
-
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizeFiltr)
-  //   );
-  // };
-
+  const { data: contacts=[], error, isLoading } = useGetContactsQuery()
+  
+  const filteredContacts = useFiltredContcts(contacts) 
+  console.log(filteredContacts)
   return (
     <Container>
       <Section title="Phonebook">
         <FormSubmit  />
       </Section>
-      {contacts.length > 0 ? (
+                                  
+      {!isLoading ? (
         <Section title="Contact">
           <Filter />
 
-          <Contacts  />
+          <Contacts  contacts = {filteredContacts}/>
         </Section>
       ) : (
         <div>You don't have any contacts yet</div>
