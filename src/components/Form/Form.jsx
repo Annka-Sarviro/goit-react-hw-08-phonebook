@@ -1,13 +1,10 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 import { Label, Button, ErrorText } from './Form.styled';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
 import { useAddContactsMutation } from 'redux/contactApiSlice';
-// import { addContact, getContacts } from 'redux/contactSlice';
-
-
 
 const FormError = ({ name }) => {
   return (
@@ -28,28 +25,28 @@ const initialValues = {
   number: '',
 };
 
-const FormSubmit = () => {
+const FormSubmit = ({ contacts }) => {
   const nameInputId = nanoid();
   const numberInputId = nanoid();
-  const [addContacts] = useAddContactsMutation()
 
+  const [addContacts, { isLoading }] = useAddContactsMutation();
 
-  const handleSubmit = (values, { resetForm }) => {
-    // if (
-    //   contacts.find(
-    //     contact => contact.name.toLowerCase() === values.name.toLowerCase()
-    //   )
-    // ) {
-    //   return alert(`${values.name} is already in contacts`);
-    // }
+  const handleSubmit = async (values, { resetForm }) => {
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === values.name.toLowerCase()
+      )
+    ) {
+      return alert(`${values.name} is already in contacts`);
+    }
+    try {
+      addContacts({ name: values.name, phone: values.number });
+      resetForm();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-    
-    
-      addContacts({name: values.name, phone: values.number})
-    
-
-    resetForm();}
-  
   return (
     <Formik
       initialValues={initialValues}
@@ -79,7 +76,9 @@ const FormSubmit = () => {
           />
           <FormError name="number" />
         </Label>
-        <Button type="submit">+ Add contact</Button>
+        <Button type="submit" disabled={isLoading}>
+          + Add contact{' '}
+        </Button>
       </Form>
     </Formik>
   );
@@ -87,3 +86,10 @@ const FormSubmit = () => {
 
 export default FormSubmit;
 
+FormSubmit.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+    })
+  ),
+};

@@ -5,36 +5,35 @@ import Contacts from './Contacts';
 import Filter from './Filter';
 import { Container } from './App.styled';
 import { useSelector } from 'react-redux';
-import {getFilterValue} from '../redux/contactSlice' 
+import { getFilterValue } from '../redux/filterSlice';
 import { useGetContactsQuery } from 'redux/contactApiSlice';
 
-const useFiltredContcts =  (contacts) => {
-    const filter = useSelector(getFilterValue);
-    const normalizeFiltr = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizeFiltr)
-    );
+const useFiltredContcts = contacts => {
+  const filter = useSelector(getFilterValue);
+  const normalizeFiltr = filter.toLowerCase();
+  return contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizeFiltr)
+  );
+};
+
+function App() {
+  const { data: contacts = [], error, isLoading } = useGetContactsQuery();
+  const filteredContacts = useFiltredContcts(contacts);
+
+  if (error) {
+    return <p>Oops...Refresh me</p>;
   }
 
-
-
-function App() { 
-
-  const { data: contacts=[], error, isLoading } = useGetContactsQuery()
-  
-  const filteredContacts = useFiltredContcts(contacts) 
-  console.log(filteredContacts)
   return (
     <Container>
       <Section title="Phonebook">
-        <FormSubmit  />
+        <FormSubmit contacts={contacts} />
       </Section>
-                                  
-      {!isLoading ? (
+      {isLoading && <p>Loading...</p>}
+      {contacts.length > 0 && !isLoading ? (
         <Section title="Contact">
           <Filter />
-
-          <Contacts  contacts = {filteredContacts}/>
+          <Contacts contacts={filteredContacts} />
         </Section>
       ) : (
         <div>You don't have any contacts yet</div>

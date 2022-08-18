@@ -2,7 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import { Label, Input } from '../Form/Form.styled';
 import { useSelector, useDispatch } from 'react-redux';
-import { addFilter, getFilterValue } from 'redux/contactSlice';
+import { addFilter, getFilterValue } from 'redux/filterSlice';
 
 const Filter = () => {
   const filterValue = useSelector(getFilterValue)
