@@ -10,7 +10,7 @@ const FormError = ({ name }) => {
   return (
     <ErrorMessage
       name={name}
-      render={() => <ErrorText>Enter number</ErrorText>}
+      render={() => <ErrorText>Enter valid number or name</ErrorText>}
     />
   );
 };

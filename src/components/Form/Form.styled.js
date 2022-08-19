@@ -20,6 +20,7 @@ export const Button = styled.button`
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 `;
 
-export const ErrorText = styled.p`
+export const ErrorText = styled.div`
   color: red;
+  position: absolute;
 `;

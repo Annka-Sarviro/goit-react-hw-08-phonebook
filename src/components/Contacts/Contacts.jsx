@@ -1,26 +1,12 @@
 import React from 'react';
-import { Contact, Name, Tel, Button } from './Contacts.styled';
-import { useDeleteContactsMutation } from 'redux/contactApiSlice';
 import PropTypes from 'prop-types';
+import ContactItem from 'components/ContactItem';
 
 const Contacts = ({ contacts }) => {
-  const [deleteContacts, { isLoading }] = useDeleteContactsMutation();
-
   return (
     <ul>
-      {contacts.map(({ id, name, phone }) => {
-        return (
-          <Contact key={id}>
-            <Name>{name}</Name> <Tel>{phone}</Tel>
-            <Button
-              type="button"
-              onClick={() => deleteContacts(id)}
-              disabled={isLoading}
-            >
-              x
-            </Button>
-          </Contact>
-        );
+      {contacts.map(contact => {
+        return <ContactItem key={contact.id} contact={contact} />;
       })}
     </ul>
   );
