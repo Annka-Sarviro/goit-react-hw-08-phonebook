@@ -1,45 +1,34 @@
-import React from 'react';
-import Section from './Section';
-import FormSubmit from './Form/';
-import Contacts from './Contacts';
-import Filter from './Filter';
-import { Container } from './App.styled';
+// import createAsyncPages from 'helpers/createAsyncPages';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout/Layout';
 import { useSelector } from 'react-redux';
-import { getFilterValue } from '../redux/filterSlice';
-import { useGetContactsQuery } from 'redux/contactApiSlice';
+import { Suspense } from 'react';
+import Contacts from '../pages/Contacts/Contacts';
+import { Register } from '../pages/Register/Register';
+import { Login } from '../pages/Login/Login';
+import { NotFoundPage } from 'pages/NotFoundPage/NotFoundPage';
+import { useCurrentUserQuery } from 'redux/userApi';
+import PrivateRoutes from './PrivateRoutes/PrivateRoutes';
 
-const useFiltredContcts = contacts => {
-  const filter = useSelector(getFilterValue);
-  const normalizeFiltr = filter.toLowerCase();
-  return contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizeFiltr)
-  );
-};
+export const App = () => {
+  const { token } = useSelector(state => state.user);
 
-function App() {
-  const { data: contacts = [], error, isLoading } = useGetContactsQuery();
-  const filteredContacts = useFiltredContcts(contacts);
-
-  if (error) {
-    return <p>Oops...Refresh me</p>;
-  }
+  useCurrentUserQuery(undefined, {
+    skip: !token,
+  });
 
   return (
-    <Container>
-      <Section title="Phonebook">
-        <FormSubmit contacts={contacts} />
-      </Section>
-      {isLoading && <p>Loading...</p>}
-      {contacts.length > 0 && !isLoading ? (
-        <Section title="Contact">
-          <Filter />
-          <Contacts contacts={filteredContacts} />
-        </Section>
-      ) : (
-        <div>You don't have any contacts yet</div>
-      )}
-    </Container>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<PrivateRoutes />}>
+            <Route index element={<Contacts />} />
+          </Route>
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
-}
-
-export default App;
+};
