@@ -1,47 +1,26 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
+
 // import { Label, Button, ErrorText } from './Form.styled';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { Formik, Form, Field } from 'formik';
 import { useLoginMutation } from 'redux/userApi';
-
-import { loginSuccess } from 'redux/user';
-// const FormError = ({ email }) => {
-//   return (
-//     <ErrorMessage
-//       name={email}
-//       // render={() => <p>Enter valid number or name</p>}
-//     />
-//   );
-// };
-
-// const validationSchema = Yup.object({
-//   password: Yup.string().required(),
-//   email: Yup.string().required(),
-// });
 
 const initialValues = {
   password: '',
   email: '',
 };
 
-const LoginForm = ({ contacts }) => {
+const LoginForm = () => {
   const passwordInputId = nanoid();
   const emailInputId = nanoid();
-  const dipatch = useDispatch();
-  const [login, status] = useLoginMutation();
+
+  const [login] = useLoginMutation();
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      login(values).then(({ data }) => {
-        dipatch(loginSuccess(data));
-        console.log(data);
+      login(values).then(resp => {
+        resp?.error && alert('Invalid email or password');
       });
-
-      console.log(values);
-      resetForm();
     } catch (error) {
       console.log(error.message);
     }
@@ -84,11 +63,3 @@ const LoginForm = ({ contacts }) => {
 };
 
 export default LoginForm;
-
-LoginForm.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-    })
-  ),
-};

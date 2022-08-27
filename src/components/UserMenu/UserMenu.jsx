@@ -2,7 +2,15 @@ import LogOut from 'components/LogOut';
 import { useSelector } from 'react-redux';
 
 const UserMenu = () => {
-  return <LogOut />;
+  const { email, name } = useSelector(state => state.user);
+
+  return (
+    <>
+      <p>Hello, {name}</p>
+      <p>{email}</p>
+      <LogOut />
+    </>
+  );
 };
 
 export default UserMenu;

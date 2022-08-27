@@ -40,7 +40,7 @@ const FormSubmit = ({ contacts }) => {
       return alert(`${values.name} is already in contacts`);
     }
     try {
-      addContacts({ name: values.name, phone: values.number });
+      addContacts({ name: values.name, number: values.number });
       resetForm();
     } catch (error) {
       console.log(error.message);

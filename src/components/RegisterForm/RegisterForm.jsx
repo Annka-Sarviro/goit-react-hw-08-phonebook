@@ -1,12 +1,9 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
+
 // import { Label, Button, ErrorText } from './Form.styled';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { useRegisterMutation } from 'redux/userApi';
-import { loginSuccess } from 'redux/user';
-import { useDispatch } from 'react-redux';
 
 const FormError = ({ name }) => {
   return (
@@ -17,44 +14,30 @@ const FormError = ({ name }) => {
   );
 };
 
-const validationSchema = Yup.object({
-  name: Yup.string().required(),
-  email: Yup.string().required(),
-  password: Yup.string().required(),
-});
-
 const initialValues = {
   name: '',
   email: '',
   password: '',
 };
 
-const RegisterForm = ({ contacts }) => {
+const RegisterForm = () => {
   const nameInputId = nanoid();
   const emailInputId = nanoid();
   const passwordInputId = nanoid();
-  const dipatch = useDispatch();
-
-  const [register, status] = useRegisterMutation();
+  const [register] = useRegisterMutation();
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      register(values);
-      console.log(values);
-      dipatch(loginSuccess(values));
-
-      resetForm();
+      register(values).then(resp => {
+        resp?.error && alert('User olready exist');
+      });
     } catch (error) {
       console.log(error.message);
     }
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form>
         <label htmlFor={nameInputId}>
           Name
@@ -96,11 +79,3 @@ const RegisterForm = ({ contacts }) => {
 };
 
 export default RegisterForm;
-
-RegisterForm.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-    })
-  ),
-};

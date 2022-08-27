@@ -9,7 +9,6 @@ const LogOut = () => {
 
   return (
     <div>
-      <p>User email</p>
       <button type="button" onClick={handleLogoutClick}>
         LogOut
       </button>

@@ -7,13 +7,24 @@ import Contacts from '../pages/Contacts/Contacts';
 import { Register } from '../pages/Register/Register';
 import { Login } from '../pages/Login/Login';
 import { NotFoundPage } from 'pages/NotFoundPage/NotFoundPage';
-import { useCurrentUserQuery } from 'redux/userApi';
+import {
+  useRegisterMutation,
+  useLoginMutation,
+  useCurrentUserQuery,
+} from 'redux/userApi';
 import PrivateRoutes from './PrivateRoutes/PrivateRoutes';
 
 export const App = () => {
   const { token } = useSelector(state => state.user);
 
   useCurrentUserQuery(undefined, {
+    skip: !token,
+  });
+
+  useRegisterMutation(undefined, {
+    skip: !token,
+  });
+  useLoginMutation(undefined, {
     skip: !token,
   });
 
