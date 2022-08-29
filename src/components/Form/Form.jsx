@@ -1,8 +1,9 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
-import { Label, Button, ErrorText } from './Form.styled';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Button } from '@mui/material';
+import { Label, ErrorText, FieldContact } from './Form.styled';
+import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useAddContactsMutation } from 'redux/contactApiSlice';
 
@@ -29,7 +30,7 @@ const FormSubmit = ({ contacts }) => {
   const nameInputId = nanoid();
   const numberInputId = nanoid();
 
-  const [addContacts, { isLoading }] = useAddContactsMutation();
+  const [addContacts] = useAddContactsMutation();
 
   const handleSubmit = async (values, { resetForm }) => {
     if (
@@ -56,7 +57,7 @@ const FormSubmit = ({ contacts }) => {
       <Form>
         <Label htmlFor={nameInputId}>
           Name
-          <Field
+          <FieldContact
             type="text"
             name="name"
             id={nameInputId}
@@ -67,7 +68,7 @@ const FormSubmit = ({ contacts }) => {
         </Label>
         <Label htmlFor={numberInputId}>
           Number
-          <Field
+          <FieldContact
             type="tel"
             name="number"
             id={numberInputId}
@@ -76,8 +77,20 @@ const FormSubmit = ({ contacts }) => {
           />
           <FormError name="number" />
         </Label>
-        <Button type="submit" disabled={isLoading}>
-          + Add contact{' '}
+        <Button
+          style={{
+            borderRadius: '3px',
+            backgroundColor: '#57d9a6',
+            padding: '6px 12px',
+            fontSize: '16px',
+            color: '#1c1c33',
+            width: '70px',
+            textTransform: 'none',
+          }}
+          variant="contained"
+          type="submit"
+        >
+          + Add
         </Button>
       </Form>
     </Formik>

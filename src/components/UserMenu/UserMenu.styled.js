@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Menu = styled.div`
-  position: fixed;
+  position: absolute;
   top: 15px;
   right: 60px;
   display: flex;

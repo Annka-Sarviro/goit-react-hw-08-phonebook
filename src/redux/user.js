@@ -55,8 +55,9 @@ export const userSlice = createSlice({
     builder.addMatcher(
       userApi.endpoints.currentUser.matchRejected,
       (state, { payload }) => {
-        if (payload.status === 401) {
-          state.token = '';
+        console.log(payload);
+        if (payload?.status === 401) {
+          return (state.token = initialState.token);
         }
       }
     );

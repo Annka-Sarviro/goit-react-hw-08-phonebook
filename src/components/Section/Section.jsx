@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 
 const Section = ({ title, children }) => {
   return (
-    <SectionBox>
-      <Title>{title}</Title>
-      {children}
-    </SectionBox>
+    <>
+      <SectionBox>
+        <Title>{title}</Title>
+        {children}
+      </SectionBox>
+    </>
   );
 };
 

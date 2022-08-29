@@ -3,6 +3,8 @@ import Section from 'components/Section';
 import FormSubmit from 'components/Form/Form';
 import Phonebook from 'components/Phonebook';
 import Filter from 'components/Filter';
+import { Div, Img, ContactTitle } from './Contacts.styled';
+import img from '../../img/group5.png';
 
 import { useSelector } from 'react-redux';
 import { getFilterValue } from 'redux/filterSlice';
@@ -25,21 +27,25 @@ function Contacts() {
   }
 
   return (
-    <>
-      <Section title="Phonebook">
-        <FormSubmit contacts={contacts} />
-      </Section>
-
-      {isLoading && <p>Loading...</p>}
-      {contacts.length > 0 && !isLoading ? (
-        <Section title="Contact">
-          <Filter />
-          <Phonebook contacts={filteredContacts} />
+    <Div>
+      <Img src={img} alt="imge" />
+      <div>
+        <ContactTitle>You PhoneBook</ContactTitle>
+        <Section title="Add contact">
+          <FormSubmit contacts={contacts} />
         </Section>
-      ) : (
-        <div>You don't have any contacts yet</div>
-      )}
-    </>
+
+        {isLoading && <p>Loading...</p>}
+        {contacts.length > 0 && !isLoading ? (
+          <Section title="You contact">
+            <Filter />
+            <Phonebook contacts={filteredContacts} />
+          </Section>
+        ) : (
+          <div>You don't have any contacts yet</div>
+        )}
+      </div>
+    </Div>
   );
 }
 

@@ -6,17 +6,20 @@ export const Contact = styled.li`
   align-items: center;
   margin-bottom: 10px;
   width: 420px;
-  border-bottom: 1px solid gray;
+  border-bottom: #57d9a6 solid 1px;
+  border-radius: 0.5px;
   padding: 5px;
 `;
 
 export const Name = styled.span`
   font-weight: 700;
   flex-grow: 1;
+  color: white;
 `;
 
 export const Tel = styled.span`
   font-weight: 400;
+  color: white;
 `;
 
 export const Button = styled.button`

@@ -30,8 +30,8 @@ export const ButtonOpen = styled(Button)`
   &.active {
     font-size: 20px;
     color: #57d9a6;
-    border-bottom: #57d9a6 solid 4px;
-    border-radius: 2px;
+    // border-bottom: #57d9a6 solid 4px;
+    // border-radius: 2px;
   }
   // style={{
   //   borderRadius: '3px',

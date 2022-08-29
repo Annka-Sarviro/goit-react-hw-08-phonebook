@@ -1,15 +1,41 @@
 import styled from 'styled-components';
+import { Field } from 'formik';
+
+export const FieldContact = styled(Field)`
+  font-size: 16px;
+  border: none;
+  border-bottom: #57d9a6 solid 1px;
+  border-radius: 0.5px;
+  background-color: inherit;
+  margin: 0 14px;
+  color: white;
+  &:focus {
+    outline: none;
+  }
+`;
 
 export const Label = styled.label`
-  font-size: 20px;
+  display: inline-block;
+  color: #57d9a6;
+  font-family: inherit;
+  font-size: 18px;
   :not(:last-child) {
-    margin-right: 20px;
+    margin-bottom: 22px;
   }
 `;
 
 export const Input = styled.input`
-  margin-left: 4px;
+  margin-left: 14px;
+  color: white;
   font-size: 16px;
+  border: none;
+  border-bottom: #57d9a6 solid 1px;
+  border-radius: 0.5px;
+  background-color: inherit;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const Button = styled.button`
