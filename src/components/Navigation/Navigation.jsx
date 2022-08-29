@@ -12,10 +12,13 @@ const Navigation = () => {
         <Link to="/">Contacts</Link>
       ) : (
         <>
-          <Logo>
-            <img src={logo} alt="logo" size="30" />
-            <LogoText>You PhoneBook</LogoText>
-          </Logo>
+          <Link to="/">
+            <Logo>
+              <img src={logo} alt="logo" size="30" />
+              <LogoText>You PhoneBook</LogoText>
+            </Logo>
+          </Link>
+
           <div>
             <Link to="register">Register</Link>
             <Span>or</Span>

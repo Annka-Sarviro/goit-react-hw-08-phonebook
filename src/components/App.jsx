@@ -36,8 +36,8 @@ export const App = () => {
           </Route>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
   );

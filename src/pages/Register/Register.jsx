@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import RegisterForm from 'components/RegisterForm';
 
 export const Register = () => {
-  const { isRegister } = useSelector(state => state.user);
+  const { token } = useSelector(state => state.user);
 
-  if (isRegister) {
+  if (token) {
     return <Navigate to="/" replace></Navigate>;
   }
 

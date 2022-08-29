@@ -5,7 +5,6 @@ const initialState = {
   name: '',
   email: '',
   token: '',
-  isRegister: false,
 };
 
 export const userSlice = createSlice({
@@ -21,9 +20,14 @@ export const userSlice = createSlice({
   },
   extraReducers: builder => {
     // userRegister
-    builder.addMatcher(userApi.endpoints.register.matchFulfilled, state => {
-      state.isRegister = true;
-    });
+    builder.addMatcher(
+      userApi.endpoints.register.matchFulfilled,
+      (state, { payload }, token) => {
+        state.email = payload.user.email;
+        state.name = payload.user.name;
+        state.token = payload.token;
+      }
+    );
 
     builder.addMatcher(
       userApi.endpoints.currentUser.matchFulfilled,
