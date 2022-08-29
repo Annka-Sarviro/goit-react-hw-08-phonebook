@@ -1,11 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
-// import 'normalize.css';
+import 'normalize.css';
 
 export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
   body {
+    background-color: #4e4e65;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

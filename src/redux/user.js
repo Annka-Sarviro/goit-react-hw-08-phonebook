@@ -12,18 +12,26 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // loginSuccess: (state, { payload }) => {
-    //   const { user, token } = payload;
-    //   state.email = user.email;
-    //   state.name = user.name;
-    //   state.token = token;
-    // },
+    loginSuccess: (state, { payload }) => {
+      const { user, token } = payload;
+      state.email = user.email;
+      state.name = user.name;
+      state.token = token;
+    },
   },
   extraReducers: builder => {
     // userRegister
     builder.addMatcher(userApi.endpoints.register.matchFulfilled, state => {
       state.isRegister = true;
     });
+
+    builder.addMatcher(
+      userApi.endpoints.currentUser.matchFulfilled,
+      (state, { payload }) => {
+        state.email = payload.email;
+        state.name = payload.name;
+      }
+    );
 
     // userSuccess
     builder.addMatcher(
@@ -42,6 +50,16 @@ export const userSlice = createSlice({
       state.token = initialState.token;
       state.isRegister = initialState.isRegister;
     });
+
+    // userError
+    builder.addMatcher(
+      userApi.endpoints.currentUser.matchRejected,
+      (state, { payload }) => {
+        if (payload.status === 401) {
+          state.token = '';
+        }
+      }
+    );
   },
 });
 

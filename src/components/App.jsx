@@ -1,4 +1,3 @@
-// import createAsyncPages from 'helpers/createAsyncPages';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout/Layout';
 import { useSelector } from 'react-redux';
